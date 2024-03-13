@@ -11,6 +11,8 @@ class InferenceOpsCudaExtension(_CudaExtension):
             self.csrc_abs_path(fname)
             for fname in [
                 "cuda/pybind/inference.cpp",
+                "cuda/utils/nvgpu_dev_info.cc",
+                "cuda/utils/gpu_launch_config.cc",
                 "cuda/decode_kv_cache_memcpy_kernel.cu",
                 "cuda/activation_kernel.cu",
                 "cuda/rms_layernorm_kernel.cu",

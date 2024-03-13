@@ -4,6 +4,7 @@
 
 #include "../common/micros.h"
 #include "../common/mp_type_traits.h"
+#include "utils/gpu_launch_config.h"
 
 template<typename T>
 __device__ __forceinline__ T silu_kernel(const T& x) {
@@ -48,8 +49,15 @@ torch::Tensor silu_and_mul(const torch::Tensor& ins)
     int64_t numel = ((torch::numel(ins)) >> 1);
 
     // TODO(LiuYang): Maybe we need to implement a function to get launch config
-    dim3 grid((numel+255)/256);
-    dim3 block(256);
+    colossalAI::cuda::utils::NVGPUDevInfo dev_info(0);
+    auto config = colossalAI::cuda::utils::GetGPULaunchConfig1D(dev_info,numel,1);
+    dim3 grid  = config.get_grid();
+    dim3 block = config.get_block();
+    printf("block size is %d\n",grid.x);
+    printf("thread size is %d\n",block.x);
+    printf("?\n");
+    // dim3 grid((numel+255)/256);
+    // dim3 block(256);
 
     DISPATCH_FLOAT_HALF_AND_BFLOAT(
         ins.scalar_type(),

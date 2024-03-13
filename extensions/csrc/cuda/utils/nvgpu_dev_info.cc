@@ -1,7 +1,5 @@
 #include "nvgpu_dev_info.h"
 
-#include <array>
-
 namespace colossalAI {
 namespace cuda {
 namespace utils {
@@ -24,8 +22,9 @@ std::array<int, 3> NVGPUDevInfo::GetMaxBlockDims() const {
 
 std::array<int, 2> NVGPUDevInfo::GetCapability() const {
   std::array<int, 2> ret;
-  ret[0] = prop_.major;
-  ret[1] = prop_.minor;
+  ret[0] = prop_->major;
+  ret[1] = prop_->minor;
+  return ret;
 }
 
 int NVGPUDevInfo::GetMultiProcessorCount() const {

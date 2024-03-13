@@ -3,12 +3,9 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 
-#include <ostream>
-#include <string>
-#include <vector>
+#include <array>
 
 #include "micros.h"
-#include "target.h"
 
 namespace colossalAI {
 namespace cuda {
@@ -17,7 +14,7 @@ namespace utils {
 class NVGPUDevInfo {
  public:
   explicit NVGPUDevInfo(int device_num) : device_num_(device_num) {
-    CUDA_CALL(cudaGetDeviceProperties(prop_, device));
+    CUDA_CHECK(cudaGetDeviceProperties(prop_, device_num));
   }
 
   std::array<int, 3> GetMaxGridDims() const;
